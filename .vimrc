@@ -12,11 +12,11 @@ Plugin 'bling/vim-airline'
 Plugin 'vim-airline/vim-airline-themes'
 Plugin 'josuegaleas/jay'
 Plugin 'tagbar'
+" Plugin 'whatyouhide/vim-lengthmatters'
+Plugin 'morhetz/gruvbox'
 call vundle#end()            " required
 
 filetype plugin indent on    " required
-" Force ctags to deal with ambiguity tags
-:nnoremap <C-]> g<C-]>
 " To ignore plugin indent changes, instead use:
 "filetype plugin on
 "
@@ -29,7 +29,9 @@ filetype plugin indent on    " required
 " see :h vundle for more details or wiki for FAQ
 " Put your non-Plugin stuff after this line
 
+nnoremap <C-]> g<C-]>
 set list listchars=tab:→\ ,trail:·
+" set colorcolumn=80
 
 nmap <F8> :TagbarToggle<CR>
 autocmd VimEnter * TagbarToggle
@@ -44,16 +46,16 @@ autocmd VimEnter * TagbarToggle
 " :PluginClean      - confirms removal of unused plugins; append `!` to auto-approve removal
 syntax enable
 set background=dark
-colorscheme jay
 
 syntax on
 set ft=nasm
 set number              " activate line numbers
 set noerrorbells visualbell t_vb=
-set tabstop=4
-set expandtab
-set softtabstop=4
-set shiftwidth=4
+" Acronis fellas use tabs
+" set tabstop=4
+" set expandtab
+" set softtabstop=4
+" set shiftwidth=4
 set encoding=utf-8
 set wildmenu
 set clipboard=unnamed
