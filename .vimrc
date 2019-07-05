@@ -1,165 +1,94 @@
-set nocompatible              " be iMproved, required
-filetype off                  " required
+set nocompatible
+filetype off
 
-set rtp+=~/.vim/bundle/Vundle.vim
-
-call vundle#begin()
-Plugin 'VundleVim/Vundle.vim'
-Bundle 'L9'
-Plugin 'tpope/vim-fugitive'
-Bundle 'FuzzyFinder'
-Plugin 'bling/vim-airline'
-Plugin 'vim-airline/vim-airline-themes'
-Plugin 'josuegaleas/jay'
-Plugin 'tagbar'
-" Plugin 'whatyouhide/vim-lengthmatters'
-Plugin 'morhetz/gruvbox'
-call vundle#end()            " required
-
-filetype plugin indent on    " required
-" To ignore plugin indent changes, instead use:
-"filetype plugin on
-"
-" Brief help
-" :PluginList       - lists configured plugins
-" :PluginInstall    - installs plugins; append `!` to update or just :PluginUpdate
-" :PluginSearch foo - searches for foo; append `!` to refresh local cache
-" :PluginClean      - confirms removal of unused plugins; append `!` to auto-approve removal
-"
-" see :h vundle for more details or wiki for FAQ
-" Put your non-Plugin stuff after this line
-
-nnoremap <C-]> g<C-]>
-set list listchars=tab:→\ ,trail:·
-" set colorcolumn=80
-
-nmap <F8> :TagbarToggle<CR>
-autocmd VimEnter * TagbarToggle
-
-" To ignore plugin indent changes, instead use:
-"filetype plugin on
-"
-" Brief help
-" :PluginList       - lists configured plugins
-" :PluginInstall    - installs plugins; append `!` to update or just :PluginUpdate
-" :PluginSearch foo - searches for foo; append `!` to refresh local cache
-" :PluginClean      - confirms removal of unused plugins; append `!` to auto-approve removal
+"------------ General -----------"
 syntax enable
-set background=dark
-
 syntax on
-set ft=nasm
-set number              " activate line numbers
+set ft=vim  " default syntax
+
+" Activate line numbers
+set number
+" Don't beep and don't flash
 set noerrorbells visualbell t_vb=
-" Acronis fellas use tabs
-" set tabstop=4
-" set expandtab
-" set softtabstop=4
-" set shiftwidth=4
-set encoding=utf-8
-set wildmenu
+" Something to do with vim and system clipboard relations
 set clipboard=unnamed
+" Autoindents new line the same as previous
 set smartindent
+" Show matching brace
 set showmatch
-set tags=tags;/,~/.vim/tags_gtk,~/.vim/tags_pthread
-" set tw=120 "
-" set wrap linebreak nolist "
-"------------General-----------"
-"set foldenable
-"set foldmethod=syntax
-
-"------------Search------------"
-set hlsearch
-set incsearch
-
-
-
-"----------Split management----------"
-set splitbelow
-set splitright
-
-nmap <C-J> <C-W><C-J>
-nmap <C-K> <C-W><C-K>
-nmap <C-L> <C-W><C-L>
-nmap <C-H> <C-W><C-H>
-
-
-
-"----------Visuals-------------"
-if has('gui_running')
-    set background=dark
-    set guifont=Inconsolata\ 13
-    set guioptions-=l
-    set guioptions-=L
-    set guioptions-=r
-    set guioptions-=R
-    set guioptions-=e
-    set guioptions-=m
-    set guioptions-=T
-endif
-
-hi LineNr guibg=bg
-hi foldcolumn guibg=bg
-hi vertsplit guifg=bg guibg=bg
-
-
-"-----------Mappings-----------"
-nmap <Leader>ev :e $MYVIMRC<cr>
-nmap <M-1> :NERDTreeToggle<cr>
-nmap <M-R> :CtrlPBufTag<cr>
-nmap <M-e> :CtrlPMRUFiles<cr>
-nmap <Leader>f :tag<space>
-nmap <M-2> :TagbarToggle<cr>
-nmap <Leader>cd :cd %:p:h<cr>:pwd<CR>
-
-" Search highlight removal
-nmap <Leader><space> :nohlsearch<cr>
 
 "-----------Plugins----------------"
+
+set rtp+=~/.vim/bundle/Vundle.vim
+call vundle#begin()
+  Plugin 'VundleVim/Vundle.vim'
+  Bundle 'L9'
+  Plugin 'tpope/vim-fugitive'
+  Bundle 'FuzzyFinder'
+  Plugin 'bling/vim-airline'
+  Plugin 'vim-airline/vim-airline-themes'
+  Plugin 'josuegaleas/jay'
+  Plugin 'tagbar'
+  Plugin 'morhetz/gruvbox'
+  " Plugin 'whatyouhide/vim-lengthmatters'
+call vundle#end()
+filetype plugin indent on
 
 "/ Ctrl-P
 let g:ctrlp_custom_ignore = 'DS_Store\git'
 let g:ctrlp_match_window = 'top,order:ttb,min:1,max:30,results:30'
 
-"/ NERDTree
-let NERDTreeHijackNetrw = 0
+" Toggle Tagbar on opening the file?
+nmap <F8> :TagbarToggle<CR>
+"autocmd VimEnter * TagbarToggle
 
-"/ Syntastic
-set statusline+=%#warningmsg#
-set statusline+=%*
+"------ Highlight some whitespace errors shit ------"
+set encoding=utf-8
+set list listchars=tab:→\ ,trail:·
 
-let g:syntastic_always_populate_loc_list = 1
-let g:syntastic_auto_loc_list = 1
-let g:syntastic_check_on_open = 1
-let g:syntastic_check_on_wq = 0
-let g:syntastic_python_python_exec = '/usr/bin/python3'
+"------ Highlight column ------"
+" set colorcolumn=80
 
-"/ ultisnips
-" Trigger configuration. Do not use <tab> if you use https://github.com/Valloric/YouCompleteMe.
-let g:UltiSnipsExpandTrigger="<a-j>"
-let g:UltiSnipsJumpForwardTrigger="<c-b>"
-let g:UltiSnipsJumpBackwardTrigger="<c-z>"
+"------ Force vim to autocomplete in bash way ------"
+set wildmode=longest,list,full
+set wildmenu
 
-"/ YCM
-let g:ycm_python_binary_path = '/usr/bin/python3'
-let g:ycm_global_ycm_extra_conf = '~/dotfiles/scripts/.ycm_extra_conf.py'
-nmap <leader>j :YcmCompleter GoTo<CR>
-nmap <leader>i :YcmCompleter GoToInclude<CR>
-nmap <leader>k :YcmCompleter GoToDefinition<CR>
-nmap <leader>h :YcmCompleter GetDoc<CR>
+"------------ Autowrap after tw characters? -----------"
+" set tw=120
+" set wrap linebreak nolist
 
-"/ Rust.vim
-let g:rustfmt_autosave = 1
-let g:ycm_rust_src_path = '~/git/rust/src'
+"------------ Tabs or spaces? -----------"
+" Acronis fellas use tabs
+" set tabstop=4
+" set expandtab
+" set softtabstop=4
+" set shiftwidth=4
 
-" If you want :UltiSnipsEdit to split your window.
-let g:UltiSnipsEditSplit="vertical"
+"------------ Tags -----------"
+set tags=tags;/ " Lookup tags also in parent directories recursively
+" If there are multiple options to jump on a tag, let me choose
+nnoremap <C-]> g<C-]>
+
+"------------Fold file on open?-----------"
+"set foldenable
+"set foldmethod=syntax
+
+"------------Search------------"
+" Highlights matches, uses incremental search
+set hlsearch
+set incsearch
+
+"----------Split management----------"
+set splitbelow
+set splitright
+
+" Move quickly between panes
+nmap <C-J> <C-W><C-J>
+nmap <C-K> <C-W><C-K>
+nmap <C-L> <C-W><C-L>
+nmap <C-H> <C-W><C-H>
 
 "-----------Auto-Commands----------"
-augroup autosourcing
-	autocmd!
-	autocmd BufWritePost .vimrc source %
-augroup END
 
 fun! StripTrailingWhitespace()
     if &ft =~ 'diff'
@@ -167,7 +96,6 @@ fun! StripTrailingWhitespace()
     endif
     %s/\s\+$//e
 endfun
-
 autocmd BufWritePre * call StripTrailingWhitespace()
 
 au BufNewFile,BufRead *.py
@@ -180,6 +108,8 @@ au BufNewFile,BufRead *.py
     \ set fileformat=unix |
 
 autocmd BufRead,BufNewFile *.strace set filetype=strace
+
+"----------- Read mans in vim -------"
 
 fun! ReadMan()
 " Assign current word under cursor to a script variable:
