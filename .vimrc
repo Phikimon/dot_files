@@ -161,7 +161,14 @@ augroup autosourcing
 	autocmd BufWritePost .vimrc source %
 augroup END
 
-autocmd BufWritePre * :%s/\s\+$//e
+fun! StripTrailingWhitespace()
+    if &ft =~ 'diff'
+        return
+    endif
+    %s/\s\+$//e
+endfun
+
+autocmd BufWritePre * call StripTrailingWhitespace()
 
 au BufNewFile,BufRead *.py
     \ set tabstop=4 |
