@@ -74,9 +74,15 @@ nnoremap <C-]> g<C-]>
 "set foldmethod=syntax
 
 "------------Search------------"
-" Highlights matches, uses incremental search
+" Highlight matches
 set hlsearch
+" Use incremental search
 set incsearch
+" If there is no capital letters in
+" the search patter, perform case-insensitive
+" search
+set ignorecase
+set smartcase
 
 "----------Split management----------"
 set splitbelow
