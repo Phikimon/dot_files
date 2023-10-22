@@ -1,22 +1,26 @@
 scriptencoding utf-8
 set encoding=utf-8
 
-set nocompatible              " be iMproved, required
-filetype off                  " required
+set nocompatible
+filetype off
 
 " curl -fLo ~/.vim/autoload/plug.vim --create-dirs \
 "    https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
-"
+
 " call plug#begin()
 " Plug 'bling/vim-airline'
 " Plug 'preservim/tagbar'
-" " Plug 'rust-lang/rust.vim'
-" call plug#end()            " required
+" call plug#end()
 
-filetype plugin indent on    " required
+filetype plugin indent on
 
 nnoremap <C-]> g<C-]>
 set list listchars=tab:→\ ,trail:·
+augroup yaml_settings
+  autocmd!
+  autocmd FileType yaml setlocal list listchars=tab:→\ ,trail:·,space:·
+augroup END
+
 " set colorcolumn=80
 "
 syntax enable
@@ -25,16 +29,41 @@ set background=dark
 syntax on
 set number              " activate line numbers
 set noerrorbells visualbell t_vb=
-" set tabstop=4
-" set expandtab
-" set softtabstop=4
-" set shiftwidth=4
+
+augroup jssettings
+    autocmd!
+    autocmd FileType javascript setlocal tabstop=4
+    autocmd FileType javascript setlocal expandtab
+    autocmd FileType javascript setlocal softtabstop=4
+    autocmd FileType javascript setlocal shiftwidth=4
+augroup END
+
 set encoding=utf-8
 set wildmenu
 set clipboard=unnamed
 set smartindent
 set showmatch
-set tags=tags;/,~/.vim/tags_gtk,~/.vim/tags_pthread
+function! SetTagsPath()
+    " Start with the directory of the current file
+    let l:current_dir = expand('%:p:h')
+    let l:tags_list = []
+
+    " Loop until we reach root (/) or an empty directory (for Windows)
+    while l:current_dir != '/' && l:current_dir != ''
+        " Add the potential tags path to our list
+        let l:tags_list += [l:current_dir . '/tags']
+
+        " Move to the parent directory
+        let l:current_dir = fnamemodify(l:current_dir, ':h')
+    endwhile
+
+    " Set the tags option to our comma-separated list of potential paths
+    set tags&   " Reset to default first
+    let &tags = join(l:tags_list, ',')
+endfunction
+
+" Call our function every time you enter a buffer
+autocmd BufEnter * call SetTagsPath()
 " set tw=120
 " set wrap linebreak nolist "
 "------------General-----------"
@@ -129,3 +158,6 @@ let s:man_word = expand('<cword>')
 endfun
 " Map the K key to the ReadMan function:
 map <S-F11> :call ReadMan()<CR>CR
+tnoremap <Esc> <C-\><C-n>
+au BufRead,BufNewFile *.mipsasm set syntax=mips
+
