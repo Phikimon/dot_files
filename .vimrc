@@ -10,6 +10,8 @@ filetype off
 " call plug#begin()
 " Plug 'bling/vim-airline'
 " Plug 'preservim/tagbar'
+" Plug 'lervag/vimtex'
+" Plug 'fatih/vim-go'
 " call plug#end()
 
 filetype plugin indent on
@@ -161,3 +163,46 @@ map <S-F11> :call ReadMan()<CR>CR
 tnoremap <Esc> <C-\><C-n>
 au BufRead,BufNewFile *.mipsasm set syntax=mips
 
+" Vimtex config
+let g:vimtex_view_method = 'skim'
+
+" Most VimTeX mappings rely on localleader and this can be changed with the
+" following line. The default is usually fine and is the symbol "\".
+let maplocalleader = ","
+
+let g:vimtex_view_general_viewer
+        \ = '/Applications/Skim.app/Contents/SharedSupport/displayline'
+let g:vimtex_view_general_options = '-r @line @pdf @tex'
+
+" This adds a callback hook that updates Skim after compilation
+"augroup vimtex_compilation
+"    au!
+"    au User VimtexEventCompileSuccess call UpdateSkim()
+"augroup END
+"
+"function! UpdateSkim()
+"    let l:out = b:vimtex.out()
+"    let l:tex = expand('%:p')
+"    let l:cmd = [g:vimtex_view_general_viewer, '-r']
+"    if !empty(system('pgrep Skim'))
+"    call extend(l:cmd, ['-g'])
+"    endif
+"    if has('nvim')
+"    call jobstart(l:cmd + [line('.'), l:out, l:tex])
+"    elseif has('job')
+"    call job_start(l:cmd + [line('.'), l:out, l:tex])
+"    else
+"    call system(join(l:cmd + [line('.'), shellescape(l:out), shellescape(l:tex)], ' '))
+"    endif
+"endfunction
+set dictionary=/usr/share/dict/words
+let g:tex_IgnoredWarnings =
+    \'Underfull'."\n".
+    \'Overfull'."\n".
+    \'specifier changed to'."\n".
+    \'You have requested'."\n".
+    \'Missing number, treated as zero.'."\n".
+    \'There were undefined references'."\n".
+    \'Citation %.%# undefined'."\n".
+    \'Double space found.'."\n"
+let g:Tex_IgnoreLevel = 8
